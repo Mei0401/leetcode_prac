@@ -9,40 +9,42 @@ class MinStack:
         """
         initialize your data structure here.
         """
-        self.body = []
-        self.sort = []
-
-    def push(self, x: int) -> None:
-        self.body.append(x)
-        if not self.sort:
-            self.sort.append(x)
-        else:
-            for i in range(len(self.sort)):
-                if self.sort[i] > x:
-                    self.sort = self.sort[:i+1] + x + self.sort[i+1:]
-                    return
-            self.sort.append(x)
-
-    def pop(self) -> None:
-        if self.body:
-            if not self.body[:-1]:
-                self.body = []
-            if self.body[-1] == self.min:
-                new_min = self.body[0]
-                for num in self.body[:-1]:
-                    if new_min > num:
-                        new_min = num 
-                self.min = new_min
-            self.body = self.body[:-1]
+        self.minusMin = []
+        self.min = None
         
 
+    def push(self, x: int) -> None:
+        if self.min == None:
+            self.min = x
+            self.minusMin.append(0)
+        else:
+            if x - self.min < 0:
+                self.minusMin.append(x - self.min)
+                self.min = x
+            else:
+                self.minusMin.append(x - self.min)
+
+
+    def pop(self) -> None:
+        if self.minusMin[-1] >= 0:
+            pass
+            # t = self.minusMin[-1] + self.min
+        else:
+            # t = self.min
+            self.min = self.min - self.minusMin[-1]
+        self.minusMin = self.minusMin[:-1]       
+
     def top(self) -> int:
-        if self.body:
-            return self.body[-1]
-        return
+        if self.minusMin[-1] > 0:
+            t = self.minusMin[-1] + self.min
+        else:
+            t = self.min
+        return t
+        
 
     def getMin(self) -> int:
         return self.min
+        
 
 
 # Your MinStack object will be instantiated and called as such:
