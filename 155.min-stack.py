@@ -9,41 +9,31 @@ class MinStack:
         """
         initialize your data structure here.
         """
-        self.minusMin = []
-        self.min = None
+        self.minList = []
+        self.elements = []
         
 
     def push(self, x: int) -> None:
-        if self.min == None:
-            self.min = x
-            self.minusMin.append(0)
+        if not self.elements:
+            self.minList.append(x)
         else:
-            if x - self.min < 0:
-                self.minusMin.append(x - self.min)
-                self.min = x
+            if x < self.minList[-1]:
+                self.minList.append(x)
             else:
-                self.minusMin.append(x - self.min)
+                self.minList.append(self.minList[-1])
+        self.elements.append(x)
 
 
     def pop(self) -> None:
-        if self.minusMin[-1] >= 0:
-            pass
-            # t = self.minusMin[-1] + self.min
-        else:
-            # t = self.min
-            self.min = self.min - self.minusMin[-1]
-        self.minusMin = self.minusMin[:-1]       
+        self.elements.pop()
+        self.minList.pop()       
 
     def top(self) -> int:
-        if self.minusMin[-1] > 0:
-            t = self.minusMin[-1] + self.min
-        else:
-            t = self.min
-        return t
+        return self.elements[-1]
         
 
     def getMin(self) -> int:
-        return self.min
+        return self.minList[-1]
         
 
 
