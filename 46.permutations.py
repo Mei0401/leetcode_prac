@@ -14,7 +14,6 @@ class Solution:
             for sub in subs:
                 for pos in range(len(nums)):
                     result.append(sub[:pos]+[nums[0]]+sub[pos:])
-                result.append(sub+[nums[0]])
             return result
         
 
